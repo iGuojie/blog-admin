@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yu.blog.dao.CategoryDao">
+
+    <select id="selectCategoryList" resultType="com.yu.blog.vo.CategoryVO">
+        SELECT
+            c.id AS id,
+            c.name AS name,
+            c.description AS description,
+            COALESCE(COUNT(cb.blog_id), 0) AS count
+        FROM category c
+        LEFT JOIN category_blogs cb ON c.id = cb.category_id
+        GROUP BY c.id, c.name, c.description
+        ORDER BY c.id
+    </select>
+
+</mapper>

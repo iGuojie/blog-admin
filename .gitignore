@@ -4,6 +4,8 @@
 
 # Log file
 *.log
+data
+CLAUDE.md
 
 # BlueJ files
 *.ctxt
