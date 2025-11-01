@@ -16,13 +16,23 @@ public class BlogsController {
     private BlogsService blogsService;
 
     @GetMapping("/getBlogList")
-    public RtnData getBlogList() {
-        return RtnData.ok(blogsService.getBlogList());
+    public RtnData getBlogList(
+            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+            @RequestParam(value = "categoryId", required = false) Integer categoryId,
+            @RequestParam(value = "labelId", required = false) Integer labelId,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "6") Integer pageSize) {
+        return RtnData.ok(blogsService.getBlogList(keyword, categoryId, labelId, pageNum, pageSize));
     }
 
     @GetMapping("/detail")
     public RtnData detail(@RequestParam("id") Integer id) {
         return RtnData.ok(blogsService.detail(id));
+    }
+
+    @GetMapping("/panel")
+    public RtnData panel() {
+        return RtnData.ok(blogsService.getPanelData());
     }
 
 }

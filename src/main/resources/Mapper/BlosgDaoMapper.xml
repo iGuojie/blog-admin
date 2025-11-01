@@ -2,25 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yu.blog.dao.BlogsDao">
 
-    <select id="selectAllBlogsCover" resultType="com.yu.blog.vo.BlogCovers">
-  <![CDATA[
+    <resultMap id="BlogCoversMap" type="com.yu.blog.vo.BlogCovers">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="createdTime" column="createdTime"/>
+        <result property="abstracts" column="abstracts"/>
+        <result property="imageUrl" column="imageUrl"/>
+        <result property="category" column="category"/>
+        <collection property="labels" ofType="java.lang.String">
+            <result column="label"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllBlogs" resultMap="BlogCoversMap">
         SELECT
             b.id   AS id,
             b.name AS name,
+            b.created_time AS createdTime,
             b.abstracts AS abstracts,
             COALESCE(
                     img.image_url,
                     REGEXP_SUBSTR(
                             b.content,
-                            'https://[^[:space:]"''<>()]+[.](png|jpg)',  -- 只要以 https:// 开头且以 .png/.jpg 结尾
-                            1,                                           -- pos = 1（从头找）
-                            1,                                           -- occurrence = 1（第一个匹配）
-                            'i'                                          -- 不区分大小写：PNG/JPG 也匹配
+                            'https://[^[:space:]"''&lt;&gt;()]+[.](png|jpg)',
+                            1,
+                            1,
+                            'i'
                     )
-            ) AS imageUrl
+            ) AS imageUrl,
+            c.name AS category,
+            l.name AS label
         FROM blogs b
                  LEFT JOIN main_image AS img ON b.id = img.blog_id
-        ]]>
+                 LEFT JOIN category_blogs AS cb ON b.id = cb.blog_id
+                 LEFT JOIN category AS c ON cb.category_id = c.id
+                 LEFT JOIN label_blogs AS lb ON b.id = lb.blog_id
+                 LEFT JOIN label AS l ON lb.label_id = l.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (b.name LIKE CONCAT('%', #{keyword}, '%')
+                OR b.abstracts LIKE CONCAT('%', #{keyword}, '%')
+                OR b.content LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="categoryId != null and categoryId != -1">
+                AND EXISTS (
+                    SELECT 1 FROM category_blogs cb2
+                    WHERE cb2.blog_id = b.id
+                    AND cb2.category_id = #{categoryId}
+                )
+            </if>
+            <if test="labelId != null and labelId != -1">
+                AND EXISTS (
+                    SELECT 1 FROM label_blogs lb2
+                    WHERE lb2.blog_id = b.id
+                    AND lb2.label_id = #{labelId}
+                )
+            </if>
+        </where>
+        ORDER BY b.created_time DESC
 </select>
 
 </mapper>

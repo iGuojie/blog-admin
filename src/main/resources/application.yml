@@ -5,13 +5,13 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 50MB      # ????????
-      max-request-size: 51MB   # ????????
+      max-file-size: 50MB
+      max-request-size: 51MB
   application:
     name: blog-system
   datasource:
-    url: jdbc:mysql://117.72.60.84:3306/blog?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
+    url:
+    username:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 

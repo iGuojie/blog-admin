@@ -1,10 +1,16 @@
 package com.yu.blog.vo;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class BlogCovers {
     private Integer Id;
     private String name;
+    private LocalDateTime createdTime;
     private String imageUrl;
     private String abstracts;
+    private String category;
+    private List<String> labels;
 
     public Integer getId() {
         return Id;
@@ -16,6 +22,14 @@ public class BlogCovers {
 
     public String getName() {
         return name;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
     }
 
     public void setName(String name) {
@@ -36,5 +50,21 @@ public class BlogCovers {
 
     public void setAbstracts(String abstracts) {
         this.abstracts = abstracts;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }
