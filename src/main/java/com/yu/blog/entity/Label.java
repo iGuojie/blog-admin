@@ -1,9 +1,12 @@
 package com.yu.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.IdType;
 
 @TableName("label")
 public class Label {
+    @TableId(type = IdType.AUTO)  // 使用数据库自动递增
     private Integer id;
     private String name;
     private String descirption;

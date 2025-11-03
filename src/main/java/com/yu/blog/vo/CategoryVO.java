@@ -1,10 +1,13 @@
 package com.yu.blog.vo;
 
+import java.time.LocalDateTime;
+
 public class CategoryVO {
     private Integer id;
     private String name;
     private String description;
     private Integer count;
+    private LocalDateTime createTime;
 
     public Integer getId() {
         return id;
@@ -36,5 +39,13 @@ public class CategoryVO {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 }

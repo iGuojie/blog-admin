@@ -1,6 +1,8 @@
 package com.yu.blog.vo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BlogCovers {
@@ -66,5 +68,13 @@ public class BlogCovers {
 
     public void setLabels(List<String> labels) {
         this.labels = labels;
+    }
+
+    public void setLabelsStr(String labelsStr) {
+        if (labelsStr != null && !labelsStr.isEmpty()) {
+            this.labels = Arrays.asList(labelsStr.split(","));
+        } else {
+            this.labels = new ArrayList<>();
+        }
     }
 }

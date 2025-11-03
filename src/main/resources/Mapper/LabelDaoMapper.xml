@@ -14,4 +14,10 @@
         ORDER BY l.id
     </select>
 
+    <select id="countBlogsByLabelId" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM label_blogs
+        WHERE label_id = #{labelId}
+    </select>
+
 </mapper>

@@ -1,14 +1,15 @@
 package com.yu.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.springframework.data.annotation.Id;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.IdType;
 
 /**
  * 实体类
  */
 @TableName("blogs") // 请替换为实际的表名
 public class Blogs {
-    @Id
+    @TableId(type = IdType.AUTO)  // 使用数据库自动递增
     private Integer id;
     private String name;
     private String content;

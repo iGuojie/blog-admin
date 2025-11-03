@@ -70,4 +70,8 @@ public class BlogsService {
 
         return panelVO;
     }
+
+    public Long getBlogCount() {
+        return blogsDao.selectCount(null);
+    }
 }

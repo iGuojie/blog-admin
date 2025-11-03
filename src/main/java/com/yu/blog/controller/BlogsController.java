@@ -35,4 +35,9 @@ public class BlogsController {
         return RtnData.ok(blogsService.getPanelData());
     }
 
+    @GetMapping("/count")
+    public RtnData getBlogCount() {
+        return RtnData.ok(blogsService.getBlogCount());
+    }
+
 }

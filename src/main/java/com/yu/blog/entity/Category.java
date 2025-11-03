@@ -1,14 +1,15 @@
 package com.yu.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.springframework.data.annotation.Id;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.IdType;
 
 /**
  * 分类表实体类
  */
 @TableName("category") // 请确认你的表名是否叫 category
 public class Category {
-    @Id
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String name;
     private String description;

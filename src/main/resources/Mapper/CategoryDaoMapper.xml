@@ -14,4 +14,10 @@
         ORDER BY c.id
     </select>
 
+    <select id="countBlogsByCategoryId" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM category_blogs
+        WHERE category_id = #{categoryId}
+    </select>
+
 </mapper>

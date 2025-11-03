@@ -2,19 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yu.blog.dao.BlogsDao">
 
-    <resultMap id="BlogCoversMap" type="com.yu.blog.vo.BlogCovers">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="createdTime" column="createdTime"/>
-        <result property="abstracts" column="abstracts"/>
-        <result property="imageUrl" column="imageUrl"/>
-        <result property="category" column="category"/>
-        <collection property="labels" ofType="java.lang.String">
-            <result column="label"/>
-        </collection>
-    </resultMap>
-
-    <select id="selectAllBlogs" resultMap="BlogCoversMap">
+    <select id="selectAllBlogs" resultType="com.yu.blog.vo.BlogCovers">
         SELECT
             b.id   AS id,
             b.name AS name,
@@ -30,12 +18,14 @@
                             'i'
                     )
             ) AS imageUrl,
-            c.name AS category,
-            l.name AS label
+            (SELECT c.name
+             FROM category_blogs cb
+             LEFT JOIN category c ON cb.category_id = c.id
+             WHERE cb.blog_id = b.id
+             LIMIT 1) AS category,
+            GROUP_CONCAT(DISTINCT l.name SEPARATOR ',') AS labelsStr
         FROM blogs b
                  LEFT JOIN main_image AS img ON b.id = img.blog_id
-                 LEFT JOIN category_blogs AS cb ON b.id = cb.blog_id
-                 LEFT JOIN category AS c ON cb.category_id = c.id
                  LEFT JOIN label_blogs AS lb ON b.id = lb.blog_id
                  LEFT JOIN label AS l ON lb.label_id = l.id
         <where>
@@ -59,6 +49,7 @@
                 )
             </if>
         </where>
+        GROUP BY b.id, b.name, b.created_time, b.abstracts, img.image_url, b.content
         ORDER BY b.created_time DESC
 </select>
 
